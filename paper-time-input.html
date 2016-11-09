@@ -66,7 +66,7 @@ Polymer element to accept a time with <paper-input> & <paper-dropdown-menu>
     <div class="layout horizontal no-wrap">
       <paper-input disabled="[[disabled]]" required no-label-float id="hour" value="{{hour}}" auto-validate prevent-invalid-input type="number" maxlength="2" max="12" min="0"><span suffix>:</span></paper-input>
       <paper-input disabled="[[disabled]]" on-change="_formatMin" required no-label-float id="min" value="{{minute}}" auto-validate prevent-invalid-input type="number" maxlength="2" max="59" min="0"></paper-input>
-      <paper-dropdown-menu disabled="[[disabled]]" vertical-align="" no-label-float>
+      <paper-dropdown-menu disabled="[[disabled]]" no-label-float>
         <paper-listbox attr-for-selected="name" selected="{{ampm}}" class="dropdown-content">
           <paper-item name="AM">AM</paper-item>
           <paper-item name="PM">PM</paper-item>
