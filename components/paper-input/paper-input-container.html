@@ -277,6 +277,11 @@ This element is `display:block` by default, but you can set the `inline` attribu
         @apply(--paper-font-subhead);
         @apply(--paper-input-container-input);
       }
+        
+       .input-content ::content input::-webkit-outer-spin-button,
+       .input-content ::content input::-webkit-inner-spin-button {
+         @apply(--paper-input-container-input-webkit-spinner);
+       }
 
       ::content [prefix] {
         @apply(--paper-font-subhead);
