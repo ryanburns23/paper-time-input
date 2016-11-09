@@ -1,0 +1,127 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+
+<!--
+`<paper-time-input>`
+Polymer element to accept a time with <paper-input> & <paper-dropdown-menu>
+
+@demo demo/index.html
+-->
+
+<dom-module id="paper-time-input">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-input{
+        width: 35px;
+        text-align: center;
+        --paper-input-container-input-webkit-spinner: {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+      paper-item{
+        cursor: pointer;
+      }
+      paper-listbox{
+        padding: 0;
+      }
+      paper-dropdown-menu{
+        width: 55px;
+        text-align: center;
+        --paper-dropdown-menu-ripple: {
+          top: 0 !important;
+        }
+      }
+      label{
+        font-size: 12px;
+      }
+      label.true{
+        display: none;
+      }
+      .layout.horizontal,
+      .layout.vertical {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+      }
+      .layout.horizontal {
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+      }
+      .layout.no-wrap {
+        -ms-flex-wrap: nowrap;
+        -webkit-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+      }
+    </style>
+
+    <label class$="[[hideLabel]]">[[label]]</label>
+    <div class="layout horizontal no-wrap">
+      <paper-input disabled="[[disabled]]" required no-label-float id="hour" value="{{hour}}" auto-validate prevent-invalid-input type="number" maxlength="2" max="12" min="0"><span suffix>:</span></paper-input>
+      <paper-input disabled="[[disabled]]" on-change="_formatMin" required no-label-float id="min" value="{{minute}}" auto-validate prevent-invalid-input type="number" maxlength="2" max="59" min="0"></paper-input>
+      <paper-dropdown-menu disabled="[[disabled]]" vertical-align="" no-label-float>
+        <paper-listbox attr-for-selected="name" selected="{{ampm}}" class="dropdown-content">
+          <paper-item name="AM">AM</paper-item>
+          <paper-item name="PM">PM</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'paper-time-input',
+
+      properties: {
+        hour: {
+          type: Number,
+        },
+        minute: {
+          type: Number,
+        },
+        label: {
+          type: String,
+          value: 'Time'
+        },
+        disabled: {
+          type: Boolean,
+          value: false
+        },
+        ampm: {
+          type: String,
+          value: 'AM'
+        },
+        value: {
+          type: String,
+          computed: '_computeTime(minute, hour, ampm)'
+        },
+        hideLabel: {
+          type: Boolean,
+          value: false
+        },
+      },
+
+      validate: function(){
+        if(this.$.hour.validate() && this.$.min.validate()){
+          return true;
+        }
+      },
+
+      _computeTime: function(minute, hour, ampm){
+        return hour + ":" + minute + " " + ampm;
+      },
+      _formatMin: function(){
+        if(this.minute.toString().length === 1){
+          this.minute = (this.minute < 10) ? ("0" + this.minute) : this.minute;
+        }
+      }
+    });
+  </script>
+</dom-module>
