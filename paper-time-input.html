@@ -80,12 +80,6 @@ Polymer element to accept a time with <paper-input> & <paper-dropdown-menu>
       is: 'paper-time-input',
 
       properties: {
-        hour: {
-          type: Number,
-        },
-        minute: {
-          type: Number,
-        },
         label: {
           type: String,
           value: 'Time'
@@ -94,12 +88,22 @@ Polymer element to accept a time with <paper-input> & <paper-dropdown-menu>
           type: Boolean,
           value: false
         },
+        hour: {
+          type: Number,
+          notify: true,
+        },
+        minute: {
+          type: Number,
+          notify: true,
+        },
         ampm: {
           type: String,
+          notify: true,
           value: 'AM'
         },
         value: {
           type: String,
+          notify: true,
           computed: '_computeTime(minute, hour, ampm)'
         },
         hideLabel: {

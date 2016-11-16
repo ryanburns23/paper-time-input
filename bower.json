@@ -4,10 +4,10 @@
   "main": "paper-time-input.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "paper-input": "https://github.com/PolymerElements/paper-input.git#73865a5fc55a49f181270f0d27107b861b15adab",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.4.1",
     "paper-item": "PolymerElements/paper-item#^1.2.1",
-    "paper-listbox": "polymerelements/paper-listbox#^1.1.2"
+    "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
+    "paper-input": "PolymerElements/paper-input#^1.1.21"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
