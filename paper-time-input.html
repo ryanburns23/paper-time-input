@@ -6,9 +6,8 @@
 
 <!--
 `<paper-time-input>`
-Polymer element to accept a time with <paper-input> & <paper-dropdown-menu>
+Polymer element to accept a time with paper-input & paper-dropdown-menu
 
-@demo demo/index.html
 -->
 
 <dom-module id="paper-time-input">
@@ -78,40 +77,62 @@ Polymer element to accept a time with <paper-input> & <paper-dropdown-menu>
   <script>
     Polymer({
       is: 'paper-time-input',
-
       properties: {
+        /**
+         * Label for input
+         */
         label: {
           type: String,
           value: 'Time'
         },
+        /**
+         * Set to true to hide label
+         */
+        hideLabel: {
+          type: Boolean,
+          value: false
+        },
+        /**
+         * Diable the inputs
+         */
         disabled: {
           type: Boolean,
           value: false
         },
+        /**
+         * hour
+         */
         hour: {
           type: Number,
           notify: true,
         },
+        /**
+         * minute
+         */
         minute: {
           type: Number,
           notify: true,
         },
+        /**
+         * am or pm
+         */
         ampm: {
           type: String,
           notify: true,
           value: 'AM'
         },
+        /**
+         * Formatted time
+         */
         value: {
           type: String,
           notify: true,
           computed: '_computeTime(minute, hour, ampm)'
         },
-        hideLabel: {
-          type: Boolean,
-          value: false
-        },
       },
-
+      /**
+       * Validate the inputs - returns true if valid
+       */
       validate: function(){
         if(this.$.hour.validate() & this.$.min.validate()){
           return true;
