@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <title>Paper Time Input Demo</title>
+
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="bower_components/paper-time-input/paper-time-input.html">
+    <link rel="import" href="bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="bower_components/iron-demo-helpers/demo-snippet.html">
+
+    <style>
+      body {
+        overflow: auto;
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        line-height: 1.5;
+        background-color: #303030;
+      }
+      .container{
+        margin: 0px auto;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      demo-snippet{
+        margin: 20px 0;
+      }
+      h3{
+        color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="vertical-section-container centered">
+        <h3>Basic demo</h3>
+        <demo-snippet>
+          <template>
+            <paper-time-input></paper-time-input>
+          </template>
+        </demo-snippet>
+      </div>
+
+      <div class="vertical-section-container centered">
+        <h3>Disabled</h3>
+        <demo-snippet>
+          <template>
+            <paper-time-input disabled></paper-time-input>
+          </template>
+        </demo-snippet>
+      </div>
+
+    </div>
+
+
+  </body>
+</html>
