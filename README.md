@@ -17,16 +17,12 @@ Inspired by the time-input in google forms
         padding: 10px;
       }
     </style>
-    <template is="dom-bind">
-      <next-code-block></next-code-block>
-    </template>
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
 -->
 
 ```html
-<paper-time-input value="{{result}}"></paper-time-input>
-
-<p>[[result]]</p>
+<paper-time-input></paper-time-input>
 ```
