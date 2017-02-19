@@ -3,11 +3,14 @@
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
 <!--
-`<paper-time-input>`
-Polymer element to accept a time with paper-input & paper-dropdown-menu
+`<paper-time-input>` Polymer element to accept a time with paper-input & paper-dropdown-menu
 
+Inspired by the time-input in google forms
+
+@demo demo/index.html
 -->
 
 <dom-module id="paper-time-input">
@@ -16,62 +19,110 @@ Polymer element to accept a time with paper-input & paper-dropdown-menu
       :host {
         display: block;
       }
+
       paper-input{
-        width: 35px;
+        width: 30px;
         text-align: center;
+        --paper-input-container-underline: {
+          border-color: var(--paper-time-input-underline-color, #ddd);
+        }
+        --paper-input-container-underline-focus: {
+          border-color: var(--paper-time-input-underline-focus-color, #2196F3);
+        };
         --paper-input-container-input-webkit-spinner: {
           -webkit-appearance: none;
           margin: 0;
+          display: none;
+        };
+      }
+
+      paper-dropdown-menu{
+        width: 55px;
+        /* Force ripple to use the whole container */
+        --paper-dropdown-menu-ripple: {
+          top: 0 !important;
+          bottom: 0px !important;
+          color: var(--paper-time-input-dropdown-ripple-color, #2196F3);
+        };
+        --paper-input-container-input: {
+          text-align: center;
+          font-size: 14px;
+          padding-left: 5px;
+        };
+        --paper-input-container-underline: {
+          border-color: transparent;
         }
+        --paper-input-container-underline-focus: {
+          border-color: transparent;
+        };
       }
       paper-item{
         cursor: pointer;
+        text-align: center;
+        font-size: 14px;
       }
       paper-listbox{
         padding: 0;
       }
-      paper-dropdown-menu{
-        width: 55px;
-        text-align: center;
-        --paper-dropdown-menu-ripple: {
-          top: 0 !important;
-        }
-      }
+
       label{
         font-size: 12px;
       }
-      label.true{
-        display: none;
+      .time-input-wrap{
+        @apply(--layout-horizontal);
+        @apply(--layout-no-wrap);
       }
-      .layout.horizontal,
-      .layout.vertical {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-      }
-      .layout.horizontal {
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-      }
-      .layout.no-wrap {
-        -ms-flex-wrap: nowrap;
-        -webkit-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+
+      [hidden]{
+        display: none !important;
       }
     </style>
 
-    <label class$="[[hideLabel]]">[[label]]</label>
-    <div class="layout horizontal no-wrap">
-      <paper-input disabled="[[disabled]]" required no-label-float id="hour" value="{{hour}}" auto-validate prevent-invalid-input type="number" maxlength="2" max="12" min="0"><span suffix>:</span></paper-input>
-      <paper-input disabled="[[disabled]]" on-change="_formatMin" required no-label-float id="min" value="{{minute}}" auto-validate prevent-invalid-input type="number" maxlength="2" max="59" min="0"></paper-input>
-      <paper-dropdown-menu disabled="[[disabled]]" no-label-float>
-        <paper-listbox attr-for-selected="name" selected="{{ampm}}" class="dropdown-content">
+    <label hidden$="[[hideLabel]]">[[label]]</label>
+    <div class="time-input-wrap">
+
+      <!-- Hour Input -->
+      <paper-input
+        id="hour"
+        type="number"
+        value="{{hour}}"
+        required
+        auto-validate="[[autoValidate]]"
+        prevent-invalid-input
+        maxlength="2"
+        max="12"
+        min="0"
+        no-label-float
+        disabled="[[disabled]]">
+        <span suffix>:</span>
+      </paper-input>
+
+      <!-- Min Input -->
+      <paper-input
+        id="min"
+        type="number"
+        value="{{min}}"
+        on-change="_formatMin"
+        required
+        auto-validate="[[autoValidate]]"
+        prevent-invalid-input
+        maxlength="2"
+        max="59"
+        min="0"
+        no-label-float
+        disabled="[[disabled]]">
+      </paper-input>
+
+      <!-- Dropdown Menu -->
+      <paper-dropdown-menu no-label-float disabled="[[disabled]]">
+        <paper-listbox attr-for-selected="name" selected="{{amPm}}" class="dropdown-content">
           <paper-item name="AM">AM</paper-item>
           <paper-item name="PM">PM</paper-item>
         </paper-listbox>
       </paper-dropdown-menu>
+
     </div>
+
   </template>
 
   <script>
@@ -79,21 +130,28 @@ Polymer element to accept a time with paper-input & paper-dropdown-menu
       is: 'paper-time-input',
       properties: {
         /**
-         * Label for input
+         * Label for the input
          */
         label: {
           type: String,
           value: 'Time'
         },
         /**
-         * Set to true to hide label
+         * auto validate time inputs
+         */
+        autoValidate: {
+          type: Boolean,
+          value: true
+        },
+        /**
+         * hides the label
          */
         hideLabel: {
           type: Boolean,
           value: false
         },
         /**
-         * Diable the inputs
+         * disables the inputs
          */
         disabled: {
           type: Boolean,
@@ -104,34 +162,36 @@ Polymer element to accept a time with paper-input & paper-dropdown-menu
          */
         hour: {
           type: Number,
-          notify: true,
+          notify: true
         },
         /**
          * minute
          */
-        minute: {
+        min: {
           type: Number,
-          notify: true,
+          notify: true
         },
         /**
-         * am or pm
+         * AM or PM
          */
-        ampm: {
+        amPm: {
           type: String,
           notify: true,
           value: 'AM'
         },
         /**
-         * Formatted time
+         * Formatted time string
          */
         value: {
           type: String,
           notify: true,
-          computed: '_computeTime(minute, hour, ampm)'
+          readOnly: true,
+          computed: '_computeTime(min, hour, amPm)'
         },
       },
       /**
-       * Validate the inputs - returns true if valid
+       * Validate the inputs
+       * @return {boolean}
        */
       validate: function(){
         if(this.$.hour.validate() & this.$.min.validate()){
@@ -139,12 +199,18 @@ Polymer element to accept a time with paper-input & paper-dropdown-menu
         }
       },
 
-      _computeTime: function(minute, hour, ampm){
-        return hour + ":" + minute + " " + ampm;
+      /**
+       * Create time string
+       */
+      _computeTime: function(min, hour, amPm){
+        return hour + ":" + min + " " + amPm;
       },
+      /**
+       * Format min
+       */
       _formatMin: function(){
-        if(this.minute.toString().length === 1){
-          this.minute = (this.minute < 10) ? ("0" + this.minute) : this.minute;
+        if(this.min.toString().length === 1){
+          this.min = (this.min < 10) ? ("0" + this.min) : this.min;
         }
       }
     });

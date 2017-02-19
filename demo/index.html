@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>paper-time-input demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../paper-time-input.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      body{
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic demo</h3>
+      <demo-snippet>
+        <template>
+          <paper-time-input></paper-time-input>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Pre Set Time</h3>
+      <demo-snippet>
+        <template is="dom-bind">
+          <paper-time-input value="{{result}}" hour="4" min="20" am-pm="AM"></paper-time-input>
+
+          <h3>Result</h3>
+          [[result]]
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Disabled</h3>
+      <demo-snippet>
+        <template>
+          <paper-time-input disabled></paper-time-input>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>
