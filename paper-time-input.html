@@ -3,6 +3,7 @@
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
 <!--
@@ -29,6 +30,7 @@ Custom property | Description | Default
     <style>
       :host {
         display: block;
+        @apply(--paper-font-common-base);
       }
 
       paper-input{
@@ -57,7 +59,7 @@ Custom property | Description | Default
         };
         --paper-input-container-input: {
           text-align: center;
-          font-size: 14px;
+          @apply(--paper-font-button);
           padding-left: 5px;
         };
         --paper-input-container-underline: {
@@ -77,7 +79,7 @@ Custom property | Description | Default
       }
 
       label{
-        font-size: 12px;
+        @apply(--paper-font-caption);
       }
       .time-input-wrap{
         @apply(--layout-horizontal);
