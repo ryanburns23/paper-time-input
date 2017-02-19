@@ -1,5 +1,8 @@
 # \<paper-time-input\>
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/ryanburns23/paper-time-input)
+
+
 Polymer element to accept a time with paper-input & paper-dropdown-menu
 
 Inspired by the time-input in google forms
