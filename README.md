@@ -15,7 +15,6 @@ Inspired by the time-input in google forms
       	max-width: 400px;
         margin: 0 auto;
         padding: 10px;
-        padding-bottom: 60px;
       }
       body{
         margin-bottom: 50px;
