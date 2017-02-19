@@ -6,7 +6,7 @@ Inspired by the time-input in google forms
 
 <!--
 ```
-<custom-element-demo height="330px">
+<custom-element-demo>
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-time-input.html">
@@ -15,6 +15,7 @@ Inspired by the time-input in google forms
       	max-width: 400px;
         margin: 0 auto;
         padding: 10px;
+        padding-bottom: 60px;
       }
     </style>
     <next-code-block></next-code-block>
