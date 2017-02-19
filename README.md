@@ -17,6 +17,9 @@ Inspired by the time-input in google forms
         padding: 10px;
         padding-bottom: 60px;
       }
+      body{
+        margin-bottom: 50px;
+      }
     </style>
     <next-code-block></next-code-block>
   </template>
