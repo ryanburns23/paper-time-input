@@ -26,12 +26,7 @@ Inspired by the time-input in google forms
 -->
 
 ```html
-<paper-time-input
-  value="{{result}}"
-  hour="4"
-  min="20"
-  am-pm="AM">
-</paper-time-input>
+<paper-time-input value="{{result}}"></paper-time-input>
 
 <p>[[result]]</p>
 ```
