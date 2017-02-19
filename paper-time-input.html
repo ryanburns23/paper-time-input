@@ -42,6 +42,13 @@ Custom property | Description | Default
         --paper-input-container-underline-focus: {
           border-color: var(--paper-time-input-underline-focus-color, #2196F3);
         };
+        --paper-input-container-input: {
+          /* Damn you firefox
+          * Needed to hide spin num in firefox
+          * http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+          */
+          -moz-appearance: textfield;
+        };
         --paper-input-container-input-webkit-spinner: {
           -webkit-appearance: none;
           margin: 0;
