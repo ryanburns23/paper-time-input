@@ -110,7 +110,7 @@ Custom property | Description | Default
         auto-validate="[[autoValidate]]"
         prevent-invalid-input
         maxlength="2"
-        max="12"
+        max="[[maxHour]]"
         min="0"
         no-label-float
         disabled="[[disabled]]">
@@ -169,6 +169,13 @@ Custom property | Description | Default
         hideLabel: {
           type: Boolean,
           value: false
+        },
+        /**
+         * max hour
+         */
+        maxHour: {
+          type: Number,
+          value: 12
         },
         /**
          * disables the inputs
