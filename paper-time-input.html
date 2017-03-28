@@ -106,11 +106,12 @@ Custom property | Description | Default
         id="hour"
         type="number"
         value="{{hour}}"
+        on-change="_shouldFormatHour"
         required
         auto-validate="[[autoValidate]]"
         prevent-invalid-input
         maxlength="2"
-        max="[[maxHour]]"
+        max="[[format]]"
         min="0"
         no-label-float
         disabled="[[disabled]]">
@@ -134,7 +135,7 @@ Custom property | Description | Default
       </paper-input>
 
       <!-- Dropdown Menu -->
-      <paper-dropdown-menu no-label-float disabled="[[disabled]]">
+      <paper-dropdown-menu hidden$="[[_equal(format, '24')]]" no-label-float disabled="[[disabled]]">
         <paper-listbox attr-for-selected="name" selected="{{amPm}}" class="dropdown-content">
           <paper-item name="AM">AM</paper-item>
           <paper-item name="PM">PM</paper-item>
@@ -171,9 +172,9 @@ Custom property | Description | Default
           value: false
         },
         /**
-         * max hour
+         * 12 or 24 hr format
          */
-        maxHour: {
+        format: {
           type: Number,
           value: 12
         },
@@ -230,7 +231,13 @@ Custom property | Description | Default
        * Create time string
        */
       _computeTime: function(min, hour, amPm){
-        return hour + ":" + min + " " + amPm;
+        // No ampm on 24 hr time
+        if (this.format == 24) {
+          amPm = "";
+        }
+        if (hour && min) {
+          return hour + ":" + min + " " + amPm;
+        }
       },
       /**
        * Format min
@@ -238,6 +245,19 @@ Custom property | Description | Default
       _formatMin: function(){
         if(this.min.toString().length === 1){
           this.min = (this.min < 10) ? ("0" + this.min) : this.min;
+        }
+      },
+      /**
+       * Hour needs a leading zero in 24hr format
+       */
+      _shouldFormatHour: function(){
+        if(this.format == "24" && this.hour.toString().length === 1){
+          this.hour = (this.hour < 10) ? ("0" + this.hour) : this.hour;
+        }
+      },
+      _equal: function(n1, n2){
+        if (n1 == n2) {
+          return true
         }
       }
     });

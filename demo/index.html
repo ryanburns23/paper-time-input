@@ -20,10 +20,21 @@
   </head>
   <body>
     <div class="vertical-section-container centered">
-      <h3>Basic demo</h3>
+      <h3>Basic Demo</h3>
       <demo-snippet>
-        <template>
-          <paper-time-input max-hour="24"></paper-time-input>
+        <template is="dom-bind">
+          <paper-time-input value="{{resultBasic}}"></paper-time-input>
+          <p>[[resultBasic]]</p>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>24 hour format</h3>
+      <demo-snippet>
+        <template is="dom-bind">
+          <paper-time-input format="24" value="{{result24}}"></paper-time-input>
+          <p>[[result24]]</p>
         </template>
       </demo-snippet>
     </div>
