@@ -111,7 +111,7 @@ Custom property | Description | Default
         auto-validate="[[autoValidate]]"
         prevent-invalid-input
         maxlength="2"
-        max="[[format]]"
+        max="[[_computeHourMax(format)]]"
         min="0"
         no-label-float
         disabled="[[disabled]]">
@@ -255,6 +255,16 @@ Custom property | Description | Default
           this.hour = (this.hour < 10) ? ("0" + this.hour) : this.hour;
         }
       },
+      /**
+       * 24 hour format has a max hr of 23
+       */
+      _computeHourMax: function(format){
+        if (format == 12) {
+          return format
+        }else {
+          return 23
+        }
+      }
       _equal: function(n1, n2){
         if (n1 == n2) {
           return true
