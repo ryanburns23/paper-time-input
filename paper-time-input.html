@@ -17,7 +17,8 @@ Inspired by the time input in google forms
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--paper-time-input-underline-color` | underline color when not focused | `#ddd`
+`--paper-time-input-color` | text color | `inherit`
+`--paper-time-input-underline-color` | underline color when not focused | `inherit`
 `--paper-time-input-underline-focus-color` | underline color when focused | `#2196F3`
 `--paper-time-input-dropdown-ripple-color` | dropdown ripple color | `#2196F3`
 
@@ -28,17 +29,21 @@ Custom property | Description | Default
 <dom-module id="paper-time-input">
   <template>
     <style>
+
       :host {
         display: block;
         @apply(--paper-font-common-base);
+        color: var(--paper-time-input-color, inherit);
       }
 
-      paper-input{
-        width: 30px;
+      paper-input {
+        width: var(--paper-time-input-width, 30px);
         text-align: center;
+        color: inherit;
+        --paper-input-container-input-color: var(--paper-time-input-color, inherit);
         --paper-input-container-underline: {
-          border-color: var(--paper-time-input-underline-color, #ddd);
-        }
+          border-color: var(--paper-time-input-underline-color, inherit);
+        };
         --paper-input-container-underline-focus: {
           border-color: var(--paper-time-input-underline-focus-color, #2196F3);
         };
@@ -48,6 +53,7 @@ Custom property | Description | Default
           * http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
           */
           -moz-appearance: textfield;
+          font-size: var(--paper-time-input-font-size, 16px);
         };
         --paper-input-container-input-webkit-spinner: {
           -webkit-appearance: none;
@@ -56,14 +62,17 @@ Custom property | Description | Default
         };
       }
 
-      paper-dropdown-menu{
+      paper-dropdown-menu {
+        top: calc(50% - 8px);
         width: 55px;
+        color: inherit;
         /* Force ripple to use the whole container */
         --paper-dropdown-menu-ripple: {
           top: 0 !important;
           bottom: 0px !important;
           color: var(--paper-time-input-dropdown-ripple-color, #2196F3);
         };
+        --paper-input-container-input-color: var(--paper-time-input-color, inherit);
         --paper-input-container-input: {
           text-align: center;
           @apply(--paper-font-button);
@@ -76,26 +85,32 @@ Custom property | Description | Default
           border-color: transparent;
         };
       }
-      paper-item{
+
+      paper-item {
         cursor: pointer;
         text-align: center;
         font-size: 14px;
       }
-      paper-listbox{
+
+      paper-listbox {
         padding: 0;
       }
 
       label{
         @apply(--paper-font-caption);
-      }
-      .time-input-wrap{
-        @apply(--layout-horizontal);
-        @apply(--layout-no-wrap);
+        color: var(--paper-time-input-color, inherit);
       }
 
-      [hidden]{
+      .time-input-wrap {
+        @apply(--layout-horizontal);
+        @apply(--layout-no-wrap);
+        color: inherit;
+      }
+
+      [hidden] {
         display: none !important;
       }
+
     </style>
 
     <label hidden$="[[hideLabel]]">[[label]]</label>
@@ -104,9 +119,9 @@ Custom property | Description | Default
       <!-- Hour Input -->
       <paper-input
         id="hour"
-        type="number"
+        type="tel"
         value="{{hour}}"
-        on-change="_shouldFormatHour"
+        on-change="_formatHour"
         required
         auto-validate="[[autoValidate]]"
         prevent-invalid-input
@@ -121,21 +136,21 @@ Custom property | Description | Default
       <!-- Min Input -->
       <paper-input
         id="min"
-        type="number"
+        type="tel"
         value="{{min}}"
         on-change="_formatMin"
         required
         auto-validate="[[autoValidate]]"
         prevent-invalid-input
         maxlength="2"
-        max="59"
+        max="59"  
         min="0"
         no-label-float
         disabled="[[disabled]]">
       </paper-input>
 
       <!-- Dropdown Menu -->
-      <paper-dropdown-menu hidden$="[[_equal(format, '24')]]" no-label-float disabled="[[disabled]]">
+      <paper-dropdown-menu hidden$="[[_equal(format, 24)]]" no-label-float disabled="[[disabled]]">
         <paper-listbox attr-for-selected="name" selected="{{amPm}}" class="dropdown-content">
           <paper-item name="AM">AM</paper-item>
           <paper-item name="PM">PM</paper-item>
@@ -221,55 +236,56 @@ Custom property | Description | Default
        * Validate the inputs
        * @return {boolean}
        */
-      validate: function(){
-        if(this.$.hour.validate() & this.$.min.validate()){
-          return true;
-        }
-      },
-
+      validate: () => this.$.hour.validate() & this.$.min.validate(),
       /**
        * Create time string
        */
-      _computeTime: function(min, hour, amPm){
+      _computeTime(min, hour, amPm) {
         // No ampm on 24 hr time
-        if (this.format == 24) {
-          amPm = "";
+        if (this.format === 24) {
+          amPm = '';
         }
         if (hour && min) {
-          return hour + ":" + min + " " + amPm;
+          return `${hour}:${min} ${amPm}`;
         }
       },
       /**
-       * Format min
+       * Min needs a leading zero
        */
-      _formatMin: function(){
-        if(this.min.toString().length === 1){
-          this.min = (this.min < 10) ? ("0" + this.min) : this.min;
+      _formatMin() {
+        if (this.min) {
+          const min = Number(this.min);
+          if (min < 10) {
+            this.min = `0${min}`;
+          } else if (min > 59) {
+            this.min = undefined;
+          }
         }
       },
       /**
        * Hour needs a leading zero in 24hr format
        */
-      _shouldFormatHour: function(){
-        if(this.format == "24" && this.hour.toString().length === 1){
-          this.hour = (this.hour < 10) ? ("0" + this.hour) : this.hour;
+      _formatHour() {
+        if (this.hour) {
+          const hour = Number(this.hour);
+          if (this.format === 24) {
+            if (hour < 10) {
+              this.hour = `0${hour}`;
+            } else if (hour > 23) {
+              this.hour = undefined;
+            }
+          } else if (hour > 12) {
+            this.hour = undefined;
+          }
         }
       },
       /**
        * 24 hour format has a max hr of 23
        */
-      _computeHourMax: function(format){
-        if (format == 12) {
-          return format
-        }else {
-          return 23
-        }
-      },
-      _equal: function(n1, n2){
-        if (n1 == n2) {
-          return true
-        }
-      }
+      _computeHourMax: format => (format === 12) ? format : 23,
+
+      _equal: (n1, n2) => n1 === n2
+
     });
   </script>
 </dom-module>
