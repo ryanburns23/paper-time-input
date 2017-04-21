@@ -258,7 +258,7 @@ Custom property | Description | Default
           if (min < 10) {
             this.min = `0${min}`;
           } else if (min > 59) {
-            this.min = 59;
+            this.min = undefined;
           }
         }
       },
@@ -268,12 +268,14 @@ Custom property | Description | Default
       _formatHour() {
         if (this.hour) {
           const hour = Number(this.hour);
-          if (hour < 10) {
-            this.hour = `0${hour}`;
-          } else if (this.format === 24 && hour > 23) {
-            this.hour = 23;
+          if (this.format === 24) {
+            if (hour < 10) {
+              this.hour = `0${hour}`;
+            } else if (hour > 23) {
+              this.hour = undefined;
+            }
           } else if (hour > 12) {
-            this.hour = 12;
+            this.hour = undefined;
           }
         }
       },
