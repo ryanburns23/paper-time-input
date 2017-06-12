@@ -5,8 +5,7 @@
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<!-- Ensure Web Animations polyfill is loaded since neon-animation 2.0 doesn't import it -->
-<link rel="import" href="../web-animations-js/web-animations-next-lite.min.html">
+
 
 <!--
 `<paper-time-input>` Polymer element to accept a time with paper-input & paper-dropdown-menu
@@ -58,17 +57,15 @@ Also see paper-input-container styles
 
       paper-dropdown-menu{
         width: 55px;
+        padding: 0;
         /* Force ripple to use the whole container */
         --paper-dropdown-menu-ripple: {
-          top: 0 !important;
-          left: 0 !important;
-          bottom: 0 !important;
           color: var(--paper-time-input-dropdown-ripple-color, #2196F3);
         };
         --paper-input-container-input: {
+          @apply --paper-font-button;
           text-align: center;
           padding-left: 5px;
-          @apply --paper-font-button;
           @apply --paper-time-dropdown-input-cotnainer;
         };
         --paper-input-container-underline: {
