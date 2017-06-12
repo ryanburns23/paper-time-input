@@ -19,7 +19,7 @@ Polymer 2 supported
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--paper-time-input-dropdown-ripple-color` | dropdown ripple color | `#2196F3`
+`--paper-time-input-dropdown-ripple-color` | dropdown ripple color | `--primary-color`
 `--paper-time-input-cotnainer` | Mixin applied to the inputs | `{}`
 `--paper-time-dropdown-input-cotnainer` | Mixin applied to the dropdown input | `{}`
 
@@ -60,7 +60,7 @@ Custom property | Description | Default
         padding: 0;
         /* Force ripple to use the whole container */
         --paper-dropdown-menu-ripple: {
-          color: var(--paper-time-input-dropdown-ripple-color, #2196F3);
+          color: var(--paper-time-input-dropdown-ripple-color, --primary-color);
         };
         --paper-input-container-input: {
           @apply --paper-font-button;
