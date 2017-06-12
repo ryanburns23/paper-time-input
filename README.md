@@ -31,6 +31,5 @@ Polymer 2 supported
 -->
 
 ```html
-<paper-time-input value="{{result}}" hour="3" min="20" format="12" am-pm="pm"></paper-time-input>
-[[result]]
+<paper-time-input hour="3" min="20" format="12" am-pm="PM"></paper-time-input>
 ```

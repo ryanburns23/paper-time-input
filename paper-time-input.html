@@ -60,8 +60,9 @@ Also see paper-input-container styles
         width: 55px;
         /* Force ripple to use the whole container */
         --paper-dropdown-menu-ripple: {
-          top: 0px !important;
-          bottom: 0px !important;
+          top: 0 !important;
+          left: 0 !important;
+          bottom: 0 !important;
           color: var(--paper-time-input-dropdown-ripple-color, #2196F3);
         };
         --paper-input-container-input: {
@@ -91,7 +92,6 @@ Also see paper-input-container styles
       }
       .time-input-wrap{
         @apply --layout-horizontal;
-        @apply --layout-center;
         @apply --layout-no-wrap;
       }
 
