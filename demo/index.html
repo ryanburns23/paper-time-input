@@ -12,19 +12,21 @@
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../paper-time-input.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-      body{
-        margin-bottom: 30px;
-      }
-    </style>
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        body{
+          margin-bottom: 30px;
+        }
+      </style>
+    </custom-style>
+
   </head>
   <body>
     <div class="vertical-section-container centered">
       <h3>Basic Demo</h3>
       <demo-snippet>
-        <template is="dom-bind">
+        <template>
           <paper-time-input value="{{resultBasic}}"></paper-time-input>
-          <p>[[resultBasic]]</p>
           <button onClick="validate()">Validate</button>
           <script type="text/javascript">
             function validate(){
@@ -38,9 +40,8 @@
     <div class="vertical-section-container centered">
       <h3>24 hour format</h3>
       <demo-snippet>
-        <template is="dom-bind">
+        <template>
           <paper-time-input format="24" value="{{result24}}"></paper-time-input>
-          <p>[[result24]]</p>
         </template>
       </demo-snippet>
     </div>
@@ -48,9 +49,8 @@
     <div class="vertical-section-container centered">
       <h3>Pre Set Time</h3>
       <demo-snippet>
-        <template is="dom-bind">
+        <template>
           <paper-time-input value="{{result}}" hour="4" min="20" am-pm="AM"></paper-time-input>
-          <p>[[result]]</p>
         </template>
       </demo-snippet>
     </div>
