@@ -4,8 +4,9 @@
 
 
 Polymer element to accept a time with paper-input & paper-dropdown-menu
-
 Inspired by the time-input in google forms
+
+Polymer 2 supported
 
 <!--
 ```
@@ -30,5 +31,6 @@ Inspired by the time-input in google forms
 -->
 
 ```html
-<paper-time-input></paper-time-input>
+<paper-time-input value="{{result}}" hour="3" min="20" format="12" am-pm="pm"></paper-time-input>
+[[result]]
 ```

@@ -5,11 +5,14 @@
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<!-- Ensure Web Animations polyfill is loaded since neon-animation 2.0 doesn't import it -->
+<link rel="import" href="../web-animations-js/web-animations-next-lite.min.html">
 
 <!--
 `<paper-time-input>` Polymer element to accept a time with paper-input & paper-dropdown-menu
-
 Inspired by the time input in google forms
+
+Polymer 2 supported
 
 ### Styling
 
@@ -17,9 +20,11 @@ Inspired by the time input in google forms
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--paper-time-input-underline-color` | underline color when not focused | `#ddd`
-`--paper-time-input-underline-focus-color` | underline color when focused | `#2196F3`
 `--paper-time-input-dropdown-ripple-color` | dropdown ripple color | `#2196F3`
+`--paper-time-input-cotnainer` | Mixin applied to the inputs | `{}`
+`--paper-time-dropdown-input-cotnainer` | Mixin applied to the dropdown input | `{}`
+
+Also see paper-input-container styles
 
 
 @demo demo/index.html
@@ -30,24 +35,19 @@ Custom property | Description | Default
     <style>
       :host {
         display: block;
-        @apply(--paper-font-common-base);
+        @apply --paper-font-common-base;
       }
 
       paper-input{
         width: 30px;
         text-align: center;
-        --paper-input-container-underline: {
-          border-color: var(--paper-time-input-underline-color, #ddd);
-        }
-        --paper-input-container-underline-focus: {
-          border-color: var(--paper-time-input-underline-focus-color, #2196F3);
-        };
         --paper-input-container-input: {
           /* Damn you firefox
           * Needed to hide spin num in firefox
           * http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
           */
           -moz-appearance: textfield;
+          @apply --paper-time-input-cotnainer;
         };
         --paper-input-container-input-webkit-spinner: {
           -webkit-appearance: none;
@@ -60,14 +60,15 @@ Custom property | Description | Default
         width: 55px;
         /* Force ripple to use the whole container */
         --paper-dropdown-menu-ripple: {
-          top: 0 !important;
+          top: 0px !important;
           bottom: 0px !important;
-          color: var(--paper-time-input-dropdown-ripple-color, #2196F3);
+          color: var(--paper-time-input-dropdown-ripple-color, var(--paper-blue));
         };
         --paper-input-container-input: {
           text-align: center;
-          @apply(--paper-font-button);
           padding-left: 5px;
+          @apply --paper-font-button;
+          @apply --paper-time-dropdown-input-cotnainer;
         };
         --paper-input-container-underline: {
           border-color: transparent;
@@ -86,11 +87,12 @@ Custom property | Description | Default
       }
 
       label{
-        @apply(--paper-font-caption);
+        @apply --paper-font-caption;
       }
       .time-input-wrap{
-        @apply(--layout-horizontal);
-        @apply(--layout-no-wrap);
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        @apply --layout-no-wrap;
       }
 
       [hidden]{
@@ -115,7 +117,7 @@ Custom property | Description | Default
         min="0"
         no-label-float
         disabled="[[disabled]]">
-        <span suffix>:</span>
+        <span slot="suffix">:</span>
       </paper-input>
 
       <!-- Min Input -->
@@ -135,8 +137,14 @@ Custom property | Description | Default
       </paper-input>
 
       <!-- Dropdown Menu -->
-      <paper-dropdown-menu hidden$="[[_equal(format, '24')]]" no-label-float disabled="[[disabled]]">
-        <paper-listbox attr-for-selected="name" selected="{{amPm}}" class="dropdown-content">
+      <paper-dropdown-menu
+        id="dropdown"
+        required
+        hidden$="[[_equal(format, '24')]]"
+        no-label-float
+        disabled="[[disabled]]">
+
+        <paper-listbox attr-for-selected="name" selected="{{amPm}}" slot="dropdown-content">
           <paper-item name="AM">AM</paper-item>
           <paper-item name="PM">PM</paper-item>
         </paper-listbox>
@@ -222,9 +230,16 @@ Custom property | Description | Default
        * @return {boolean}
        */
       validate: function(){
-        if(this.$.hour.validate() & this.$.min.validate()){
-          return true;
+        var valid = true;
+        // Validate hour & min fields
+        if(!this.$.hour.validate() | !this.$.min.validate()){
+          valid = false;
         }
+        // Validate AM PM if 12 hour time
+        if (this.format == 12 && !this.$.dropdown.validate()) {
+          valid = false;
+        }
+        return valid;
       },
 
       /**
