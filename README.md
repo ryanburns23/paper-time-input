@@ -31,7 +31,7 @@ Polymer 2 supported
 -->
 
 ```html
-<paper-time-input hour="3" min="20" format="12" am-pm="PM"></paper-time-input>
+<paper-time-input hour="3" min="05" am-pm="PM"></paper-time-input>
 ```
 
 - paper-menu-button 2.0 depends on neon-animation 2.0, which doesn't import the Web Animations polyfill, so you'll have to import it

@@ -194,14 +194,14 @@ Custom property | Description | Default
          * hour
          */
         hour: {
-          type: Number,
+          type: String,
           notify: true
         },
         /**
          * minute
          */
         min: {
-          type: Number,
+          type: String,
           notify: true
         },
         /**
@@ -243,11 +243,11 @@ Custom property | Description | Default
        * Create time string
        */
       _computeTime: function(min, hour, amPm){
-        // No ampm on 24 hr time
-        if (this.format == 24) {
-          amPm = "";
-        }
         if (hour && min) {
+          // No ampm on 24 hr time
+          if (this.format == 24) {
+            amPm = "";
+          }
           return hour + ":" + min + " " + amPm;
         }
       },
@@ -263,7 +263,7 @@ Custom property | Description | Default
        * Hour needs a leading zero in 24hr format
        */
       _shouldFormatHour: function(){
-        if(this.format == "24" && this.hour.toString().length === 1){
+        if(this.format == 24 && this.hour.toString().length === 1){
           this.hour = (this.hour < 10) ? ("0" + this.hour) : this.hour;
         }
       },
