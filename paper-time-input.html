@@ -240,6 +240,19 @@ Custom property | Description | Default
       },
 
       /**
+      * Reset the component to default state
+      */
+      reset: function() {
+        this.min = '';
+        this.$.min.invalid = false;
+
+        this.hour = '';
+        this.$.hour.invalid = false;
+
+        this.amPm = 'AM';
+      },
+
+      /**
        * Create time string
        */
       _computeTime: function(min, hour, amPm){

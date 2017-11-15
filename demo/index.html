@@ -28,9 +28,13 @@
         <template>
           <paper-time-input value="{{resultBasic}}"></paper-time-input>
           <button onClick="validate()">Validate</button>
+          <button onClick="reset()">Reset</button>
           <script type="text/javascript">
             function validate(){
               document.querySelector('paper-time-input').validate();
+            }
+            function reset(){
+              document.querySelector('paper-time-input').reset();
             }
           </script>
         </template>
