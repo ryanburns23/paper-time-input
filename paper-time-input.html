@@ -131,6 +131,24 @@ Custom property | Description | Default
         min="0"
         no-label-float
         disabled="[[disabled]]">
+        <span hidden$="[[!enableSecond]]" suffix slot="suffix">:</span>
+      </paper-input>
+
+      <!-- Sec Input -->
+      <paper-input
+          id="sec"
+          type="number"
+          value="{{sec}}"
+          on-change="_formatSec"
+          required
+          auto-validate="[[autoValidate]]"
+          prevent-invalid-input
+          maxlength="2"
+          max="59"
+          min="0"
+          no-label-float
+          disabled="[[disabled]]"
+          hidden$="[[!enableSecond]]">
       </paper-input>
 
       <!-- Dropdown Menu -->
@@ -205,6 +223,20 @@ Custom property | Description | Default
           notify: true
         },
         /**
+         * second
+         */
+        sec: {
+          type: String,
+          notify: true
+        },
+        /**
+         * show the sec field
+         */
+        enableSecond: {
+          type: Boolean,
+          value: false
+        },
+         /**
          * AM or PM
          */
         amPm: {
@@ -219,7 +251,7 @@ Custom property | Description | Default
           type: String,
           notify: true,
           readOnly: true,
-          computed: '_computeTime(min, hour, amPm)'
+          computed: '_computeTime(min, hour, sec, amPm)'
         },
       },
       /**
@@ -232,6 +264,10 @@ Custom property | Description | Default
         if(!this.$.hour.validate() | !this.$.min.validate()){
           valid = false;
         }
+        // Validate second field
+        if (this.enableSecond && !this.$.sec.validate()) {
+          valid = false;
+        }
         // Validate AM PM if 12 hour time
         if (this.format == 12 && !this.$.dropdown.validate()) {
           valid = false;
@@ -242,11 +278,15 @@ Custom property | Description | Default
       /**
        * Create time string
        */
-      _computeTime: function(min, hour, amPm){
+      _computeTime: function(min, hour, sec, amPm){
         if (hour && min) {
           // No ampm on 24 hr time
           if (this.format == 24) {
             amPm = "";
+          }
+          // add sec field
+          if (this.enableSecond && sec) {
+            return hour + ":" + min + ":" + sec + " " + amPm;
           }
           return hour + ":" + min + " " + amPm;
         }
@@ -257,6 +297,14 @@ Custom property | Description | Default
       _formatMin: function(){
         if(this.min.toString().length === 1){
           this.min = (this.min < 10) ? ("0" + this.min) : this.min;
+        }
+      },
+      /**
+       * Format sec
+       */
+      _formatSec: function(){
+        if(this.sec.toString().length === 1){
+          this.sec = (this.sec < 10) ? ("0" + this.sec) : this.sec;
         }
       },
       /**
